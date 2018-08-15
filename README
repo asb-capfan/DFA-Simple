@@ -7,7 +7,7 @@ It includes a script to compile a text based state tables into new objects.
 Install this module using CPAN, cf. https://www.cpan.org/modules/INSTALL.html
 
 Contact the author:
-  Randall Maas (randym@acm.org, http://www.hamline.edu/~rcmaas )
+  Randall Maas (randym@acm.org)
           
 Copyright
  

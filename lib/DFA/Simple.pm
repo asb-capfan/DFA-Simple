@@ -1,13 +1,10 @@
-#!/usr/bin/perl -Tw
-#Copyright 1998-1999, Randall Maas.  All rights reserved.  This program is free
-#software; you can redistribute it and/or modify it under the same terms as
-#PERL itself.
-
 package DFA::Simple;
-use vars qw($VERSION @ISA);
-use AutoLoader 'AUTOLOAD';
-@ISA=qw(AutoLoader);
-$VERSION="0.32";
+
+use strict;
+use warnings;
+use Carp;
+
+our $VERSION="0.32";
 
 #Set up for threading, if available
 #if ($Config{usethreads})
@@ -15,40 +12,14 @@ $VERSION="0.32";
 #     use Thread;
 #     use Thread::Queue;
 #     use Thread::Semaphore;
-#     @ISA=qw(AutoLoader Thread);
+#     use base 'Thread';
 #  }
 
-use Carp;
-my $Base=[];
-1;
-
-#The structure of the node is:
-#[CurrentState,Flags,Transitions,States, ...]
-
-sub new
-{
-   my $self=shift;
-   my $class=ref($self)||$self;
-
-   my $B=[@{$Base}];
-
-   #Preserve old state and such
-   if (ref $self) 
-     {
-	@{$B}=@{$self};
-     }
-
-   if (@_) {$B->[2]=shift;}
-   if (@_) {$B->[3]=shift;}
-   if (@_) {$B->[4]=shift;}
-   return bless $B, $class;
-}
-
-__END__
+my $Base = [];
 
 =head1 NAME
 
-DFA::Simple - A PERL module to implement simple Discrete Finite Automata
+DFA::Simple - A Perl module to implement simple Discrete Finite Automata
 
 =head1 SYNOPSIS
 
@@ -73,8 +44,8 @@ or
 
    my $Obj = new DFA::Simple $Actions,[States];
 
-This creates a simple automaton with a finite number of individual states.  The
-short version is that state numbers are just indices into the array.
+This creates a simple automaton with a finite number of individual states. 
+The short version is that state numbers are just indices into the array.
 
 The state basically binds the rest of the machine together:
 
@@ -92,8 +63,8 @@ The state basically binds the rest of the machine together:
 
 =back
 
-This structure may remind you of the SysV run-level concepts.  It is very
-similar.
+This structure may remind you of the SysV run-level concepts. 
+It is very similar.
 
 At run time you don't typically feed any state numbers to the finite machine;
 you ignore them.  Rather your program may read inputs or such.  The tests for
@@ -423,6 +394,30 @@ Randall Maas (L<randym@acm.org>, L<http://www.hamline.edu/~rcmaas/>)
 
 =cut
 
+#The structure of the node is:
+#[CurrentState,Flags,Transitions,States, ...]
+
+sub new
+{
+   my $self=shift;
+   my $class=ref($self)||$self;
+
+   my $B=[@{$Base}];
+
+   #Preserve old state and such
+   if (ref $self) 
+     {
+	@{$B}=@{$self};
+     }
+
+   if (@_) {$B->[2]=shift;}
+   if (@_) {$B->[3]=shift;}
+   if (@_) {$B->[4]=shift;}
+   return bless $B, $class;
+}
+
+
+
 #In multithreaded versions each eligible transaction is dispatched in order to
 #its own thread, with its own copy of the state (including registers).
 #C<Restore> will merely destroy the thread.  The first thread to commit will
@@ -530,7 +525,7 @@ sub DoTheStateMachine
   Completion Queue, Sem]
 #[CurrentState,Flags, Transitions,States, Registers, Stack]
 #Flags
-# Bit 0: Set for PERL threaded mode
+# Bit 0: Set for Perl threaded mode
 # Bit 1: Set for `many' commit; otherwise single commit
 # Bit 2: Clear to indicate a roll back action
 # Bit 3: Clear to indicate a commit action 
@@ -855,3 +850,4 @@ sub Wait_TS
     }
 }
 
+1;

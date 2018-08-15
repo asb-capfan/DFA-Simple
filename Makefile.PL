@@ -1,29 +1,21 @@
-#!/usr/bin/perl
-
-#My script files
-opendir D, 'bin';
-my ($A,$b,@_Scripts)=readdir D;
-closedir D;
-my @Scripts;
-foreach my $I (@_Scripts)
-{
-  if ($I=~/,v$/i || $I eq 'makefile') {next;}
-  push @Scripts, "bin/$I";
-}
-
+use 5.008008;
 use ExtUtils::MakeMaker;
 #see lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 
 WriteMakefile(
     'NAME'    => 'DFA::Simple',
-    'dist'    => {COMPRESS=> 'gzip -9f', SUFFIX=>'gz', 
-                  POSTOP => 'mv $(DISTNAME)-$(VERSION).tar.gz ../',
-#		  TARFLAGS=>'cvF -f'
-                  },
-    'linkext' => {LINKTYPE => '' }, 
-    'clean'   => {FILES => "*% *.html *~ www-* .htp* .htg*"},
-    VERSION => '0.32',
-    'EXE_FILES' => [@Scripts],
-    'MAN1PODS'  => {map {my $a=$_; s#^bin/#./blib/man1/#; $a,"$_.\$(MAN1EXT)";} @Scripts},
+    'VERSION_FROM'      => 'lib/DFA/Simple.pm', # finds $VERSION
+    PREREQ_PM         => {
+                            'Carp' => 0.00,
+                            'ExtUtils::MakeMaker' => '6.64',
+                         }, # e.g., Module::Name => 1.1
+    AUTHOR         => 'Randall Maas <randym@acm.org>',
+    LICENSE        => 'perl_5',
+    META_MERGE     => {
+        resources => {
+            repository => 'https://github.com//asb-capfan/DFA-Simple',
+        },
+    },
+    MIN_PERL_VERSION => 5.008008,
 );

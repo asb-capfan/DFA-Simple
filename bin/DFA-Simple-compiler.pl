@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #Copyright 1998-1999, Randall Maas.  All rights reserved.  This program is free
 #software; you can redistribute it and/or modify it under the same terms as
-#PERL itself.  
+#Perl itself.  
 
 =head1 NAME
 
@@ -32,7 +32,7 @@ number of states (or modes).  The machine behaves differently depending on
 which state it is in.  The machine usually starts of in an initial state, and
 may have a special state to "shut it off."  
 
-Any time the state is changed, an action may be performed.  The next state is
+Any time the state is changed, an action may be performed. The next state is
 determined by performing a  number of tests.  The first test that passes
 indicates what the next state should be, and the action that should be
 performed.  The test must be carefully designed to operate correctly; there is
@@ -42,7 +42,7 @@ section of L<DFA::Simple>.
 
 To define the automaton, you need to create a file that contains your
 definition.  It has three sections, which can be broken down and rearranged
-to your liking.  But first, I need to describe comments.  A comment is
+to your liking.  But first, I need to describe comments. A comment is
 anything between a C<#> and the end of the line:
 
    # My comment: hi world!
@@ -57,7 +57,7 @@ would first start with:
    [productions]
 
 This simply tells the compiler that you will now be defining some production
-rules.  A production rule looks like:
+rules. A production rule looks like:
 
    CurrentState:NextState:Requires:Test:WhatToDo
 

@@ -1,0 +1,9 @@
+Partial Revision history for DFA::Simple
+
+0.32
+
+    - Until version 0.32 the action table had a small bug. 
+	  The third element of the Actions array was employ as the code ref to be run when leaving a state. 
+	  This is still supported for backwards compatibility, but is deprecated. 
+	  The documentation specified the second element is to hold the action. 
+	  This is now used (it was ignored before), and if not set, the third element is checked.

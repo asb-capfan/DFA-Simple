@@ -521,8 +521,7 @@ sub DoTheStateMachine
 # [$NextState, $Testcoderef, $DoCodeRef]
 
 #The structure of the node is:
-#[CurrentState,Flags, Transitions,States, Registers, Ref2CommittedThread,
-  Completion Queue, Sem]
+#[CurrentState,Flags, Transitions,States, Registers, Ref2CommittedThread, Completion Queue, Sem]
 #[CurrentState,Flags, Transitions,States, Registers, Stack]
 #Flags
 # Bit 0: Set for Perl threaded mode

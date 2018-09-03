@@ -19,8 +19,6 @@ The options include:
 
 =item C<--package >NAME
 
-=item C<--package=>NAME
-
 This specifies the package name of the compiled automaton.
 
 =back
@@ -51,7 +49,7 @@ anything between a C<#> and the end of the line:
 
 As I mentioned above, there are three sections: flow based transitions, 
 exceptional transitions, and what needs to be done for every transition.  If
-you want to describe some transitions based upon the flow of discources, you
+you want to describe some transitions based upon the flow of discourses, you
 would first start with:
 
    [productions]
@@ -69,8 +67,7 @@ The production rule is only used if, the I<Here> and I<Why> rules match:
 
 =over 1
 
-=item 1. The discourse state machine is currently in a state that matches
-I<CurrentState>
+=item 1. The discourse state machine is currently in a state that matches I<CurrentState>
 
 =item 2. The I<Test> passes.
 
@@ -147,7 +144,7 @@ from the current state, the following happens:
 
 =head1 Author
 
-Randall Maas (L<randym@acm.org>, L<http://www.hamline.edu/~rcmaas/>)
+Randall Maas (L<randym@acm.org>)
 
 =cut
 
@@ -158,9 +155,9 @@ GetOptions(\%MyArgs, "package=s");
 
 
 if (exists $MyArgs{'package'})
-  {
-     print "package $MyArgs{'package'};\n";
-  }
+{
+    print "package $MyArgs{'package'};\n";
+}
 
 use Safe;
 my $Helper = new Safe;
@@ -177,138 +174,140 @@ my @Trans;
 my $Test_Scanner;
 
 my @ParseState =
-    (undef,undef,
+(
+    undef,undef,
      
-     #State == 2
-     sub
-      {
-	 #@_=(This state, next state, test, do);
+    #State == 2
+    sub {
+        #@_=(This state, next state, test, do);
 
-	 #Possibly allocate 'this state'
-	 if (!exists $StateNum{$_[0]})
-	   {
-	      $StateNum{$_[0]}=$StateCnt++;
-	   }
+        #Possibly allocate 'this state'
+        if (!exists $StateNum{$_[0]})
+        {
+            $StateNum{$_[0]}=$StateCnt++;
+        }
 
-         #Possibly allocate 'the next state'
-         if (!exists $StateNum{$_[1]})
-	   {
-	      $StateNum{$_[1]}=$StateCnt++;
-	   }
+        #Possibly allocate 'the next state'
+        if (!exists $StateNum{$_[1]})
+        {
+            $StateNum{$_[1]}=$StateCnt++;
+        }
 
-         #Build the state rule.
-         my ($TSub,$DSub)=('','');
-	 if (defined $_[4])
-	   {
-	       # Attempt to make the things work out
-	       $_[4] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
-	       $DSub="sub {$_[4];}";
-	   }
+        #Build the state rule.
+        my ($TSub,$DSub)=('','');
+        if (defined $_[4])
+        {
+            # Attempt to make the things work out
+            $_[4] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
+            $DSub="sub {$_[4];}";
+        }
 
-         if (defined $_[3] && length $_[3])
-           {
-	      # Attempt to make the things work out
-	      $_[3] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
-	      if (defined $Test_Scanner)
-		{
-		   $_=$_[3];
-		   $Helper->reval($Test_Scanner);
-		   if ($@) {die "Test scanner: $@\n";}
-		   $TSub=$_;
-		}
-	       else
-	        {
-		   $TSub=$_[3];
-	        }
-	   }
-	  else
-	   {$TSub="undef";}
+        if (defined $_[3] && length $_[3])
+        {
+            # Attempt to make the things work out
+            $_[3] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
+            if (defined $Test_Scanner)
+            {
+                $_=$_[3];
+                $Helper->reval($Test_Scanner);
+                if ($@) {die "Test scanner: $@\n";}
+                $TSub=$_;
+            }
+            else
+            {
+                $TSub=$_[3];
+            }
+        }
+        else
+        {
+            $TSub="undef";
+        }
 
-	 $StateRules[$StateNum{$_[0]}] .=
-	     "\t[$StateNum{$_[1]}, $TSub, $DSub],\n";
-      },
+        $StateRules[$StateNum{$_[0]}] .= "\t[$StateNum{$_[1]}, $TSub, $DSub],\n";
+    },
 
-     #State == 3;
-     sub
-      {
-	 my $Sub="sub { ";
+    #State == 3;
+    sub {
+        my $Sub="sub { ";
 
-         #Part of code for rule transition
-	 if (defined $_[1])
-	   {
-	      if (!exists $StateNum{$_[1]})
-	        {
-	           $StateNum{$_[1]}=$StateCnt++;
-	        }
+        #Part of code for rule transition
+        if (defined $_[1])
+        {
+            if (!exists $StateNum{$_[1]})
+            {
+                $StateNum{$_[1]}=$StateCnt++;
+            }
 
-	      $Sub .= $MyArgs{'package'}."->NextState($StateNum{$_[1]});";
-             }
+            $Sub .= $MyArgs{'package'}."->NextState($StateNum{$_[1]});";
+        }
 
-	 #Part of code for working
-	 if (defined $_[2])
-	   {
-	      $Sub .= $_[2];
-	   }
+        #Part of code for working
+        if (defined $_[2])
+        {
+            $Sub .= $_[2];
+        }
 
-	 $Sub.="}";
+        $Sub.="}";
 
-	 if ($_[0] =~ /(\w+)\.(\w+)/)
-	   {print "\$$1\{$2}\t= $Sub;\n";}
-	  else
-	   {print "\$Except{$_[0]}=$Sub;\n";}
-      },
+        if ($_[0] =~ /(\w+)\.(\w+)/)
+        {
+            print "\$$1\{$2}\t= $Sub;\n";
+        }
+        else
+        {
+            print "\$Except{$_[0]}=$Sub;\n";
+        }
+    },
 
-     #State==4
-     sub
-      {
-	 return if !defined $_[0];
-         $Trans[$StateNum{$_[0]}]=[$_[1],$_[2]];
-      },
+    #State==4
+    sub {
+        return if !defined $_[0];
+        $Trans[$StateNum{$_[0]}]=[$_[1],$_[2]];
+     },
 
-     #State == 5, build up a test scanner
-     sub
-      {
-	 #Basically append this to the test scanner code
-	 $Test_Scanner .= "$_\n";
-      }
-    );
+    #State == 5, build up a test scanner
+    sub {
+        #Basically append this to the test scanner code
+        $Test_Scanner .= "$_\n";
+    }
+);
 
 
 #The file parser
 while (<$F>)
 {
-   chomp;
-
-   #Check for POD
-   if ($State != 0 && /^=\w+/) {push @States,$State; $State=0; next;}
-
-   if ($State==0)
-     {
+    chomp;
+    
+    #Check for POD
+    if ($State != 0 && /^=\w+/) {push @States,$State; $State=0; next;}
+    
+    if ($State==0)
+    {
         if (/^=cut\s*$/i) {$State=pop @States;}
         next;
-     }
-
-   # Work on some other stuff 
-   # Remove comments
-   s/#.*$//;
-
-   # Remove spaces
-   s/^\s+//;
-   s/\s+$//;
-   
-   if (!$_ || !length $_) {next;}
-
-   #Handle multi-line things
-#   if (/\\$/)
-
-   if (/\[productions\]/i)    {$State=2; next;}
-   if (/\[exceptions\]/i)     {$State=3; next;}
-   if (/\[transition\]/i)     {$State=4; next;}
-   if (/\[test\s+scanner\]/i) {$State=5; $Test_Scanner=undef; next;}
-   if (/^\[/) {die "Unknown brace\n";}
-
-   my $Func= $ParseState[$State];
-   &$Func(split(/\s*:\s*/, $_));
+    }
+  
+    # Work on some other stuff 
+    # Remove comments
+    s/#.*$//;
+    
+    # Remove spaces
+    s/^\s+//;
+    s/\s+$//;
+    
+    if (!$_ || !length $_) {next;}
+    
+    #Handle multi-line things
+    #   if (/\\$/)
+    
+    if (/\[productions\]/i)    {$State=2; next;}
+    if (/\[exceptions\]/i)     {$State=3; next;}
+    if (/\[transition\]/i)     {$State=4; next;}
+    if (/\[test\s+scanner\]/i) {$State=5; $Test_Scanner=undef; next;}
+    if (/^\[/) {die "Unknown brace\n";}
+    
+    my $Func= $ParseState[$State];
+    &$Func(split(/\s*:\s*/, $_));
 }
 
 close $F;
@@ -320,42 +319,42 @@ foreach my $I (@Trans)
 {
     print "\t[";
     if (defined $I)
-     {
-	if (defined $I->[0] && length $I->[0])
-	  {
-	     #Attempt to make the things work out
-	     $I->[0] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
-
-	     print "sub {",$I->[0],";}, ";
-	  }
-	else
-	  {
-	     print "undef, ";
-	  }
-
-	if (defined $I->[1] && length $I->[1])
-	  {
-	     #Attempt to make the things work out
-	     $I->[1] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
-
-	     print "sub {",$I->[1],";}],\n";
-	  }
-	else
-	  {
-	     print "undef],\n";
-	  }
-     }
+    {
+        if (defined $I->[0] && length $I->[0])
+        {
+            #Attempt to make the things work out
+            $I->[0] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
+    
+            print "sub {",$I->[0],";}, ";
+        }
+        else
+        {
+            print "undef, ";
+        }
+    
+        if (defined $I->[1] && length $I->[1])
+        {
+            #Attempt to make the things work out
+            $I->[1] =~ s/(^|[^>\w\$])(?!if)(\w+\()/$1$2/g;
+   
+            print "sub {",$I->[1],";}],\n";
+        }
+        else
+        {
+            print "undef],\n";
+        }
+    }
     else
-     {
-	print "undef,undef],\n";
-     }
+    {
+        print "undef,undef],\n";
+    }
 }
 print "   ];\n";
 
 print "\n\n\nmy \$States =[\n";
 for (my $I = 0; $I < scalar @StateRules; $I++)
 {
-   #Now print the state table for this state.
+    #Now print the state table for this state.
     print "   [\n$StateRules[$I]\n   ],\n\n";
 }
 print "  ];\n\n";

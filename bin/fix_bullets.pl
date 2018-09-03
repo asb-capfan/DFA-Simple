@@ -2,12 +2,13 @@
 
 #-----------------------------------------------------------
 # fix_bullets.pl - convert text bullets to HTML lists
-# 08/19/04  Bill Ruppert  wruppert@repsonseb2b.com
+# 08/19/04  Bill Ruppert
 #-----------------------------------------------------------
 
 use strict;
 use warnings;
 use Carp;
+use lib "./../lib";
 use DFA::Simple;
 
 #-----------------------------------------------------------
@@ -275,6 +276,6 @@ and/or modify it under the same terms as Perl itself.
 
 =head1 AUTHOR
 
-Bill Ruppert <wruppert@responseb2b.com>
+Bill Ruppert
 
 =cut

@@ -1,5 +1,16 @@
 Partial Revision history for DFA::Simple
 
+0.33
+
+    - removed AutoLoader, related to rt #36110
+    - fixed and extended MakeFile, related to rt #8225
+    - removed threads, as it was the old threads and as threads are officially discouraged
+    - removed broken/unfinished code (due to removed AutoLoader)
+    - added sample script as mentioned in POD (example-from-pod.pl)
+    - added sample script fix_bullets.pl from perl.com article "Building a Finite State Machine Using DFA::Simple", Sep 23, 2004 by Bill Ruppert (thanks to Bill Ruppert for granting permission).
+      URL to article: https://www.perl.com/pub/2004/09/23/fsms.html/ (downloaded 2018-09-03)
+    - fixed typos and indentation
+
 0.32
 
     - Until version 0.32 the action table had a small bug. 

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use v5.16;
+use v5.8;
 use lib './../lib';
 use DFA::Simple;
 

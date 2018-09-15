@@ -3,6 +3,13 @@
 #software; you can redistribute it and/or modify it under the same terms as
 #Perl itself.  
 
+######################################################################
+# WARNING ############################################################
+######################################################################
+# This script is outdated and might not work any longer.             #
+# Patches welcome.                                                   #
+######################################################################
+
 =head1 NAME
 
 DFA-Simple-compiler -- A simple automaton compiler with discrete states

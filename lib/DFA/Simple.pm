@@ -6,7 +6,7 @@ use Carp;
 
 our $VERSION="0.32";
 
-# looks more like an instance variable
+# XXX: looks more like an instance variable
 my $CurrentStateTable = [];
 
 =head1 NAME
@@ -69,7 +69,7 @@ the tests, and carries out the state transitions ("firing the rules").
 
 As for where the state definitions, tests, and transitions come from: you have
 to define them yourself, or write a program to do that.  There are techniques
-for converting Phase Structrure grammars into state machines (usually thru
+for converting Phase Structure grammars into state machines (usually thru
 converting it to Chomsky Normal form, and such), or by drawing bubble diagrams.
 In the case of the bubble diagram, I usually just number each bubble
 sequentially from left to right.  The arc (and its condition) will tell me most
@@ -88,7 +88,7 @@ possible states
 
 =item I<Actions>
 
-The object when enterring or leaving a state may perform some action.
+The object when entering or leaving a state may perform some action.
 
 =item I<Rules>
 
@@ -111,7 +111,7 @@ here is the output:
 	Bye
 	Am Here (in state 3)
 
-	Reseting:
+	Resetting:
 	Intro
 	I will force us to fail to go to a new state:
 	Unusual circumstances?
@@ -204,13 +204,13 @@ a new state.
 The last one leaves the current state and goes to the specified I<NewState>.
 If the current state is defined, its I<StateExitCodeRef> will be called (see
 below).  Then the new states I<StateEnterCodeRef> will be called (if defined)
-(see below).  Cavaet, no check is made to see if the new state is the same as
+(see below).  Caveat, no check is made to see if the new state is the same as
 the old state; this can be used to `reset' the state.
 
 =head2 Actions
 
 C<Actions> is a method that can set or get the objects list of actions to
-perform when enterring or leaving a particular state.
+perform when entering or leaving a particular state.
 
    my $Actions = $Obj->Actions;
 
@@ -219,7 +219,7 @@ perform when enterring or leaving a particular state.
 		 ]);
 
    
-I<Actions> is an array reference describing what to do when enterring and
+I<Actions> is an array reference describing what to do when entering and
 leaving various states.  When a state is entered, its I<StateEnterCodeRef>
 will be called (if defined).   When a state is left (as in going to a new
 state) its I<StateExitCodeRef> will be called (if defined).
@@ -270,8 +270,7 @@ to undo choosing the wrong rule.  This type of state machine is called an
 
 For the most part, augmented transition networks are just like the state
 machines described earlier, but they also have two more tables (and four more
-registers).  Don't worry about the size; these methods are small, and
-autoloaded only if you employ them.
+registers). 
 
 =over 1
 
@@ -329,7 +328,7 @@ actions.  The data is saved before a questionable action is carried out, and
 tossed out when a C<Retrieve> is called.  It is otherwise not used by the
 object implementation.
 
-=head1 Designing Recursive and Augmented Transition Networks
+=head1 DESIGNING RECURSIVE AND AUGMENTED TRANSITION NETWORKS
 
 There are several issues involved with designing ATNs:
 * Input and Output
@@ -359,30 +358,30 @@ results.
 
 print or other file writes
 any commands that affect the system (link, unlink, rename, etc.)
-C<enqueue> or otherwise changing any PERL variable.
+C<enqueue> or otherwise changing any Perl variable.
 
 All output should be an ATN decides to commit to a branch
 
 =head2 Following all paths: special issues
 
-If you choose the option of having all the possible paths taken, there are some
-special issues.  First: what will the new state and registers be?  In this
-case, the registers are must all be 
+If you choose the option of having all the possible paths taken, there are some special issues.
+First: what will the new state and registers be?
+In this case, the registers are must all be.
 
-Becareful in single commit ATNs, with several nested branches.  These can lead
-to very inefficient scenarios, due to the difficulty stop all of the branches
-of investigation 
+Be careful in single commit ATNs, with several nested branches.
+These can lead to very inefficient scenarios,
+due to the difficulty stop all of the branches of investigation.
 
 
-=head1 Installation
+=head1 INSTALLATION
 
-    perl Makefile.PL
-    make
-    make install
+Install this module using CPAN, cf. L<How to install CPAN modules|https://www.cpan.org/modules/INSTALL.html>
 
-=head1 Author
+=head1 AUTHOR
 
-Randall Maas (L<randym@acm.org>, L<http://www.hamline.edu/~rcmaas/>)
+Randall Maas
+
+Maintenance by Alexander Becker (L<asb@cpan.org>)
 
 =cut
 

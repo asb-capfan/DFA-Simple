@@ -94,8 +94,8 @@ thing, but are kept separate for very good reasons.  They are also optional.
 The reason is that a more powerful, faster, and (ironically) testable machine
 can be built if the specific next state is declared separately from the
 broader I<WhatToDo> declaration.  In other words, you will be arranging
-things a way that compiler clearly (or more clearly than otherwise)
-understands your goal.  But you need a goal to be understood properly!
+things in a way that the compiler clearly understands your goal (or more clearly than otherwise). 
+But you need a goal to be understood properly!
 
 =head2 Exceptional rules
 

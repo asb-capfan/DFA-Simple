@@ -70,7 +70,7 @@ or, think of it as a trip
 
    Here:There:With:Why:How
 
-The production rule is only used if, the I<Here> and I<Why> rules match:
+The production rule is only used if the I<Here> and I<Why> rules match:
 
 =over 1
 

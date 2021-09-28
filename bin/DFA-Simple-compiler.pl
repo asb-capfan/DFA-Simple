@@ -107,7 +107,7 @@ used once or so.
    [exceptions]
    exceptionname:NextState:WhatToDo
 
-I<WhatToDo> and <NextState> are the same as mentioned in the previous section.
+I<WhatToDo> and I<NextState> are the same as mentioned in the previous section.
 I<ExceptionName> varies -- there are the signals that a program may receive
 from the operating system:
 

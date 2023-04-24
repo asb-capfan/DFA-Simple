@@ -1,6 +1,6 @@
 # DFA::Simple
 
-[![](https://github.com/asb-capfan/DFA-Simple/workflows/perl-ci/badge.svg)](https://github.com/asb-capfan/DFA-Simple/actions)
+[![Perl CI](https://github.com/asb-capfan/DFA-Simple/actions/workflows/perl-ci.yml/badge.svg)](https://github.com/asb-capfan/DFA-Simple/actions/workflows/perl-ci.yml)
 
 This is a package with a very simple finite automaton, or a finite state machine module.
 You can build your own FSM object with it.  

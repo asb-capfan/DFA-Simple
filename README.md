@@ -1,6 +1,6 @@
 # DFA::Simple
 
-[![Build Status](https://travis-ci.org/asb-capfan/DFA-Simple.svg?branch=master)](https://travis-ci.org/asb-capfan/DFA-Simple)
+[![](https://github.com/asb-capfan/DFA-Simple/workflows/perl-ci/badge.svg)](https://github.com/asb-capfan/DFA-Simple/actions)
 
 This is a package with a very simple finite automaton, or a finite state machine module.
 You can build your own FSM object with it.  

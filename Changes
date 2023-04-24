@@ -1,5 +1,8 @@
 Partial Revision history for DFA::Simple
 
+0.35
+    - removed Travis CI, added GitHub Actions for CI
+
 0.34
     - added meta files rt #127476
 	- added MANIFEST file

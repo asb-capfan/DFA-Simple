@@ -14,7 +14,7 @@ WriteMakefile(
     LICENSE        => 'perl_5',
     META_MERGE     => {
         resources => {
-            repository => 'https://github.com//asb-capfan/DFA-Simple',
+            repository => 'https://github.com/asb-capfan/DFA-Simple',
         },
     },
     MIN_PERL_VERSION => 5.008008,
